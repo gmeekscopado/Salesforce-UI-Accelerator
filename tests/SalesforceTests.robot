@@ -2,7 +2,7 @@
 # before running this suite.
 
 *** Settings ***
-Resource                        ../common.robot
+Resource                        ../resources/common.robot
 Suite Setup                     Setup Browser
 Suite Teardown                  End suite
 
