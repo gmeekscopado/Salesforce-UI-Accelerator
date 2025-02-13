@@ -5,7 +5,6 @@
 Resource                        ../resources/common.robot
 Suite Setup                     Setup Browser
 Suite Teardown                  End suite
-Test Setup                      EnableSelfHealing 
 
 *** Test Cases ***
 Entering A Lead
@@ -15,7 +14,7 @@ Entering A Lead
     ClickText                   Leads
     VerifyText                  Change Owner
     ClickText                   New
-    VerifyText                  Lead Information
+    VerifyText                  Led Information
     UseModal                    On                          # Only find fields from open modal dialog
 
     Picklist                    Salutation                  Ms.
