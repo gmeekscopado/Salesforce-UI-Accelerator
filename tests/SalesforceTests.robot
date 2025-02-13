@@ -5,7 +5,7 @@
 Resource                        ../resources/common.robot
 Suite Setup                     Setup Browser
 Suite Teardown                  End suite
-
+Test Setup                      EnableSelfHealing 
 
 *** Test Cases ***
 Entering A Lead
@@ -31,8 +31,8 @@ Entering A Lead
     TypeText                    Company                     Growmore                    Last Name
     TypeText                    Title                       Manager                     Address Information
     TypeText                    Email                       tina.smith@gmail.com        Rating
-    TypeText                    Website                     https://www.growmore.com/
-    PickList                    Lead Source                 Web
+    TypeText                    Websit                     https://www.growmore.com/
+    PickList                    Lead ource                 Web
     TypeText                    Zip/Postal Code             75052
     PickList                    Product Interest            GC1000 series
     Picklist                    Lead Source                 Partner Referral
