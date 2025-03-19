@@ -15,7 +15,7 @@ Entering A Lead
     VerifyText                  Change Owner
     ClickText                   New
     UseModal                    On                          # Only find fields from open modal dialoge
-    VerifyText                  Led Information
+    VerifyText                  Lead Information
 
     Picklist                    Salutation                  Ms.
     TypeText                    First Name                  Tina
