@@ -156,10 +156,9 @@ Change status of opportunity
     ClickText                   Opportunities
     VerifyPageHeader            Opportunities
     ClickText                   Growmore Pace               delay=2                     # intentionally delay action - 2 seconds
-    VerifyText                  Contact Roles
-    
-
-    ClickText                   Show more actions           anchor=Show actions for Partners
+    VerifyText                  Contact Roles  
+    ClickText                   Show actions for Contact Roles
+    # ClickText                   Show more actions           anchor=Contact Roles
     ClickText                   Add Contact Roles
     UseModal                    On
 
