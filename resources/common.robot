@@ -137,8 +137,8 @@ DeleteAllMatchingAccounts
             ClickText           Delete
             VerifyText          Are you sure you want to delete this account?
             ClickText           Delete                      2
-            VerifyText          Undo
-            VerifyNoText        Undo                        timeout=15s
+            VerifyText          was deleted
+            Sleep               10
         ELSE
             ${accounts_exist}=                              Set Variable                ${False}
         END
@@ -147,8 +147,8 @@ VerifyNoMatchingAccounts
     [Arguments]                 ${account_name}
     [Documentation]             Verifies that no accounts with the given name exist
 
-    TypeText                    Search this list...         ${account_name}             anchor=View
-    ClickText                   Search
+    
+    TypeText                    Search this list...         ${account_name}\n             anchor=View
     VerifyNoText                ${account_name}             partial_match=false         timeout=5s
 
 
