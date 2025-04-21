@@ -2,6 +2,7 @@
 # before running this suite.
 
 *** Settings ***
+Library    QForce
 Resource                        ../resources/common.robot
 Suite Setup                     Setup Browser
 Suite Teardown                  End suite
@@ -31,7 +32,7 @@ Entering A Lead
     TypeText                    Title                       Manager                     Address Information
     TypeText                    Email                       tina.smith@gmail.com        Rating
     TypeText                    Websit                     https://www.growmore.com/
-    PickList                    Lead ource                 Web
+    PickList                    Lead Source                 Web
     TypeText                    Zip/Postal Code             75052
     PickList                    Product Interest            GC1000 series
     Picklist                    Lead Source                 Partner Referral
@@ -87,14 +88,6 @@ Creating An Account
     ClickText                   Accounts
     ClickUntil                  Account Information         New
 
-
-
-    PickList                    *Account Picklist           1
-    TypeText                    *Test Number Field          123
-    ClickText                   *Customer Since
-    ClickText                   Today
-    TypeText                    *Account Number             500
-    PickList                    *Picklist Test              1
     TypeText                    Account Name                Growmore                    anchor=Parent Account
     TypeText                    Phone                       +12258443456789             anchor=Fax
     TypeText                    Fax                         +12258443456766
@@ -107,9 +100,8 @@ Creating An Account
     ClickText                   Save                        partial_match=False
 
     ClickText                   Details
-    VerifyText                  Growmore
-    VerifyText                  35,000
-
+    VerifyField                 Account Name                Growmore
+    VerifyField                 Employees                   35,000
 
 Create A Case on an Account
     [tags]                      Case
@@ -165,23 +157,25 @@ Change status of opportunity
     VerifyPageHeader            Opportunities
     ClickText                   Growmore Pace               delay=2                     # intentionally delay action - 2 seconds
     VerifyText                  Contact Roles
+    
 
-    ClickText                   Show actions for Contact Roles
+    ClickText                   Show more actions           anchor=Show actions for Partners
     ClickText                   Add Contact Roles
+    UseModal                    On
 
     # verify all following texts from the dialog that opens
     VerifyAll                   Cancel, Show Selected, Name, Add Contact Roles
     ComboBox                    Search Contacts...          Tina Smith
     ClickText                   Next                        delay=3
     ClickText                   Edit Role: Item
-    ClickText                   --None--
-    ClickText                   Decision Maker
+    PickList                    Role                        Decision Maker
     ClickText                   Save                        partial_match=False
     VerifyText                  Tina Smith
 
     ClickText                   Mark Stage as Complete
     ClickText                   Opportunities               delay=2
     ClickText                   Growmore Pace
+    ClickText                   Details
     VerifyStage                 Qualification               true
     VerifyStage                 Prospecting                 false
     VerifyStageColor            Qualification               navy
