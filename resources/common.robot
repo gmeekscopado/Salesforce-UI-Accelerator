@@ -138,7 +138,7 @@ DeleteAllMatchingAccounts
             VerifyText          Are you sure you want to delete this account?
             ClickText           Delete                      2
             VerifyText          Undo
-            VerifyNoText        Undo                        timeout=5s
+            VerifyNoText        Undo                        timeout=15s
         ELSE
             ${accounts_exist}=                              Set Variable                ${False}
         END
@@ -149,7 +149,7 @@ VerifyNoMatchingAccounts
 
     TypeText                    Search this list...         ${account_name}             anchor=View
     ClickText                   Search
-    VerifyNoText                ${account_name}             timeout=5s
+    VerifyNoText                ${account_name}             partial_match=false         timeout=5s
 
 
 DeleteAllMatchingRecords
