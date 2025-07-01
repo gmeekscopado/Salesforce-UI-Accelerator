@@ -4,6 +4,7 @@ Documentation                   Example resource file with custom keywords. NOTE
 Library                         QForce
 Library                         String
 Library                         QWeb
+Library                         OperatingSystem
 
 *** Variables ***
 # IMPORTANT: Please read the readme.txt to understand needed variables and how to handle them!!
@@ -147,8 +148,8 @@ VerifyNoMatchingAccounts
     [Arguments]                 ${account_name}
     [Documentation]             Verifies that no accounts with the given name exist
 
-    
-    TypeText                    Search this list...         ${account_name}\n             anchor=View
+
+    TypeText                    Search this list...         ${account_name}\n           anchor=View
     VerifyNoText                ${account_name}             partial_match=false         timeout=5s
 
 
