@@ -2,7 +2,7 @@
 # before running this suite.
 
 *** Settings ***
-Library    QForce
+Library                         QForce
 Resource                        ../resources/common.robot
 Suite Setup                     Setup Browser
 Suite Teardown                  End suite
@@ -31,7 +31,7 @@ Entering A Lead
     TypeText                    Company                     Growmore                    Last Name
     TypeText                    Title                       Manager                     Address Information
     TypeText                    Email                       tina.smith@gmail.com        Rating
-    TypeText                    Websit                     https://www.growmore.com/
+    TypeText                    Websit                      https://www.growmore.com/
     PickList                    Lead Source                 Web
     TypeText                    Zip/Postal Code             75052
     PickList                    Product Interest            GC1000 series
@@ -156,9 +156,9 @@ Change status of opportunity
     ClickText                   Opportunities
     VerifyPageHeader            Opportunities
     ClickText                   Growmore Pace               delay=2                     # intentionally delay action - 2 seconds
-    VerifyText                  Contact Roles  
+    VerifyText                  Contact Roles
     ClickText                   Show actions for Contact Roles
-    # ClickText                   Show more actions           anchor=Contact Roles
+    # ClickText                 Show more actions           anchor=Contact Roles
     ClickText                   Add Contact Roles
     UseModal                    On
 
