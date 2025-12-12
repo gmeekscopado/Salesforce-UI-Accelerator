@@ -24,7 +24,7 @@ Setup Browser
     SetConfig                   DefaultTimeout              15s                         #sometimes salesforce is slow
     # adds a delay of 0.3 between keywords. This is helpful in cloud with limited resources.
     SetConfig                   Delay                       0.3
-    Home
+    # Home
 
 End suite
     Close All Browsers
