@@ -10,7 +10,7 @@ Metadata          Exploration Id        51054
 Documentation     Storage uses bidirectional GitHub Integration
 
 # You can change imported library to "QWeb" if testing generic web application, not Salesforce.
-Resource                        ../resources/common.robot
+Resource          ../resources/common.robot
 Library           QForce
 Suite Setup       Open Browser          about:blank             chrome
 Suite Teardown    Close All Browsers
