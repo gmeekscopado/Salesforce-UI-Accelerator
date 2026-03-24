@@ -17,6 +17,7 @@ Suite Teardown          Close All Browsers
 *** Test Cases ***
 
 Test case
+    Appstate    Home
     ClickText    Leads
     ClickText    New
     UseModal    On
