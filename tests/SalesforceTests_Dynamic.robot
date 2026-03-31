@@ -6,8 +6,6 @@
 # Install requirement: pip install robotframework-faker
 
 *** Settings ***
-Library                         QForce
-Library                         FakerLibrary
 Resource                        ../resources/common.robot
 Suite Setup                     Setup Suite With Dynamic Data
 Suite Teardown                  End suite
