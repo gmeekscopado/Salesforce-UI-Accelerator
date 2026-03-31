@@ -59,7 +59,7 @@ Entering A Lead
 
 Converting A Lead To Opportunity-Account-Contact
     [Documentation]             Converts the created lead to opportunity, account, and contact
-    [tags]                      Lead
+    [tags]                      Lead.Conversion
     Appstate                    Home
     LaunchApp                   ${APP_SALES}
 
@@ -108,7 +108,7 @@ Creating An Account
 
 Create A Case on an Account
     [Documentation]             Creates a case associated with the account and contact
-    [tags]                      Case
+    [tags]                      Account.Case
     Appstate                    Home
     LaunchApp                   ${APP_SALES}
     ClickText                   Cases List
@@ -128,7 +128,7 @@ Create A Case on an Account
 
 Creating An Opportunity For The Account
     [Documentation]             Creates an opportunity for the account
-    [tags]                      Account
+    [tags]                      Account.Opportunity
     Appstate                    Home
     LaunchApp                   ${APP_SALES}
     ClickText                   Accounts
@@ -158,7 +158,7 @@ Creating An Opportunity For The Account
 
 Change status of opportunity
     [Documentation]             Changes the opportunity status and adds contact role
-    [tags]                      status_change
+    [tags]                      Opportunity.Status
     Appstate                    Home
     ClickText                   Opportunities
     VerifyPageHeader            Opportunities
@@ -190,7 +190,7 @@ Change status of opportunity
 
 Create A Contact For The Account
     [Documentation]             Creates an additional contact for the account
-    [tags]                      Growmore.Account
+    [tags]                      Account.Contact
     Appstate                    Home
     LaunchApp                   ${APP_SALES}
     ClickText                   Accounts
