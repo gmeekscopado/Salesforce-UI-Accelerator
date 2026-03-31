@@ -13,6 +13,60 @@ ${BROWSER}                      chrome
 # ${login_url}                  https://qentinel--demonew.my.salesforce.com/            # Salesforce instance. NOTE: Should be overwritten in CRT variables
 ${home_url}                     ${login_url}/lightning/page/home
 
+
+# Static Configuration Variables
+${LEAD_SALUTATION}              Ms.
+${LEAD_STATUS}                  New
+${LEAD_SOURCE}                  Partner Referral
+${LEAD_PRODUCT_INTEREST}        GC1000 series
+${LEAD_ZIP_CODE}                75052
+
+${CONTACT_SALUTATION}           Mr.
+${CONTACT_TITLE}                Manager
+
+${ACCOUNT_TYPE}                 Technology Partner
+${ACCOUNT_INDUSTRY}             Agriculture
+${ACCOUNT_EMPLOYEES}            35000
+${ACCOUNT_REVENUE}              12 billion
+
+${OPPORTUNITY_TYPE}             New Business
+${OPPORTUNITY_STAGE}            Prospecting
+${OPPORTUNITY_AMOUNT}           5000000
+${OPPORTUNITY_NEXT_STEP}        Qualification
+${OPPORTUNITY_DESCRIPTION}      This is first step
+
+${CASE_STATUS}                  New
+${CASE_ORIGIN}                  Web
+${CASE_TYPE}                    Other
+${CASE_REASON}                  Equipment Complexity
+
+${CONTACT_ROLE}                 Decision Maker
+
+${APP_SALES}                    Sales
+${APP_SERVICE}                  Service
+
+# Dynamic Variables (Generated at Suite Setup)
+${LEAD_FIRST_NAME}              ${EMPTY}
+${LEAD_LAST_NAME}               ${EMPTY}
+${LEAD_FULL_NAME}               ${EMPTY}
+${LEAD_EMAIL}                   ${EMPTY}
+${LEAD_TITLE}                   ${EMPTY}
+${LEAD_PHONE}                   ${EMPTY}
+
+${CONTACT_FIRST_NAME}           ${EMPTY}
+${CONTACT_LAST_NAME}            ${EMPTY}
+${CONTACT_FULL_NAME}            ${EMPTY}
+${CONTACT_EMAIL}                ${EMPTY}
+
+${ACCOUNT_NAME}                 ${EMPTY}
+${ACCOUNT_WEBSITE}              ${EMPTY}
+${ACCOUNT_PHONE}                ${EMPTY}
+${ACCOUNT_FAX}                  ${EMPTY}
+
+${OPPORTUNITY_NAME}             ${EMPTY}
+
+${DATE_SUFFIX}                  ${EMPTY}
+
 *** Keywords ***
 Setup Browser
     # Setting search order is not really needed here, but given as an example
@@ -189,3 +243,71 @@ DeleteAllMatchingRecords
             ${records_exist}=                               Set Variable                ${False}
         END
     END
+
+
+Setup Suite With Dynamic Data
+    [Documentation]             Initializes browser and generates all dynamic test data
+    Setup Browser
+    Generate Dynamic Test Data
+
+Generate Dynamic Test Data
+    [Documentation]             Generates realistic test data using FakerLibrary
+    
+    # Generate date suffix for uniqueness (YYYYMMDD format)
+    ${current_date}=            Get Current Date            result_format=%Y%m%d
+    Set Suite Variable          ${DATE_SUFFIX}              ${current_date}
+    
+    # Generate Lead Data
+    ${lead_fname}=              FakerLibrary.First Name Female
+    ${lead_lname}=              FakerLibrary.Last Name
+    ${lead_email}=              FakerLibrary.Email
+    ${lead_title}=              FakerLibrary.Job
+    ${lead_phone}=              Generate Phone Number
+    
+    Set Suite Variable          ${LEAD_FIRST_NAME}          ${lead_fname}
+    Set Suite Variable          ${LEAD_LAST_NAME}           ${lead_lname}
+    Set Suite Variable          ${LEAD_FULL_NAME}           ${LEAD_SALUTATION} ${lead_fname} ${lead_lname}
+    Set Suite Variable          ${LEAD_EMAIL}               ${lead_email}
+    Set Suite Variable          ${LEAD_TITLE}               ${lead_title}
+    Set Suite Variable          ${LEAD_PHONE}               ${lead_phone}
+    
+    # Generate Contact Data
+    ${contact_fname}=           FakerLibrary.First Name Male
+    ${contact_lname}=           FakerLibrary.Last Name
+    ${contact_email}=           FakerLibrary.Email
+    
+    Set Suite Variable          ${CONTACT_FIRST_NAME}       ${contact_fname}
+    Set Suite Variable          ${CONTACT_LAST_NAME}        ${contact_lname}
+    Set Suite Variable          ${CONTACT_FULL_NAME}        ${contact_fname} ${contact_lname}
+    Set Suite Variable          ${CONTACT_EMAIL}            ${contact_email}
+    
+    # Generate Account Data
+    ${company_name}=            FakerLibrary.Company
+    ${account_name_unique}=     Set Variable                ${company_name}_${DATE_SUFFIX}
+    ${website}=                 FakerLibrary.Url
+    ${account_phone}=           Generate Phone Number
+    ${account_fax}=             Generate Phone Number
+    
+    Set Suite Variable          ${ACCOUNT_NAME}             ${account_name_unique}
+    Set Suite Variable          ${ACCOUNT_WEBSITE}          ${website}
+    Set Suite Variable          ${ACCOUNT_PHONE}            ${account_phone}
+    Set Suite Variable          ${ACCOUNT_FAX}              ${account_fax}
+    
+    # Generate Opportunity Data
+    ${opp_name}=                Set Variable                ${company_name} Pace_${DATE_SUFFIX}
+    Set Suite Variable          ${OPPORTUNITY_NAME}         ${opp_name}
+    
+    # Log all generated data for debugging
+    Log To Console              ${\n}=== DYNAMIC TEST DATA GENERATED ===${\n}
+    Log To Console              Lead: ${LEAD_FULL_NAME} (${LEAD_EMAIL})
+    Log To Console              Contact: ${CONTACT_FULL_NAME} (${CONTACT_EMAIL})
+    Log To Console              Account: ${ACCOUNT_NAME}
+    Log To Console              Opportunity: ${OPPORTUNITY_NAME}
+    Log To Console              Date Suffix: ${DATE_SUFFIX}
+    Log To Console              ======================================${\n}
+
+Generate Phone Number
+    [Documentation]             Generates a random phone number in international format
+    ${rand_phone}=              Generate Random String      14                          [NUMBERS]
+    ${phone}=                   Set Variable                +${rand_phone}
+    [Return]                    ${phone}
