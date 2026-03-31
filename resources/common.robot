@@ -3,6 +3,7 @@ Documentation                   Example resource file with custom keywords. NOTE
 ...                             minor changes to work in different instances.
 Library                         QForce
 Library                         String
+Library                         DateTime
 Library                         QWeb
 Library                         OperatingSystem
 
