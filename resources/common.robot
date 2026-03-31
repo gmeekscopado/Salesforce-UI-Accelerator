@@ -186,10 +186,10 @@ DeleteAllMatchingAccounts
     [Arguments]                 ${account_name}
     [Documentation]             Deletes all accounts with the given name
 
-    ${accounts_exist}=          Set Variable                ${True}
+    ${accounts_exist}=          SetVariable                ${True}
 
     WHILE                       ${accounts_exist}
-        ${is_visible}=          Is Text                     ${account_name}
+        ${is_visible}=          IsText                     ${account_name}
         IF                      ${is_visible}
             ClickText           ${account_name}             anchor=Account Name
             ClickText           Delete
@@ -198,7 +198,7 @@ DeleteAllMatchingAccounts
             VerifyText          was deleted
             Sleep               10
         ELSE
-            ${accounts_exist}=                              Set Variable                ${False}
+            ${accounts_exist}=                              SetVariable                ${False}
         END
     END
 VerifyNoMatchingAccounts
