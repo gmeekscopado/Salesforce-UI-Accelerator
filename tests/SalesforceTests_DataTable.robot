@@ -25,12 +25,12 @@ ${Lead_Conversion_Testing.Lead_Salutation}
     Picklist                    Salutation                  ${Lead_Conversion_Testing.Lead_Salutation}
     TypeText                    First Name                  ${Lead_Conversion_Testing.Lead_FirstName}
     TypeText                    Last Name                   ${Lead_Conversion_Testing.Lead_LastName}
- ${Lead_Conversion_Testing.Lead_Salutation_FullName}   Picklist                    Lead Status                 ${Lead_Conversion_Testing.Lead_Status}
-    
-    TypeText                    Phone                       ${Lead_Conversion_Testing.Lead_Phone}               First Name
-    TypeText                    Company                     ${Lead_Conversion_Testing.Lead_Company}             Last Name
-    TypeText                    Title                       ${Lead_Conversion_Testing.Lead_Title}               Address Information
-    TypeText                    Email                       ${Lead_Conversion_Testing.Lead_Email}               Rating
+    Picklist                    Lead Status                 ${Lead_Conversion_Testing.Lead_Status}
+
+    TypeText                    Phone                       ${Lead_Conversion_Testing.Lead_Phone}                   First Name
+    TypeText                    Company                     ${Lead_Conversion_Testing.Lead_Company}                 Last Name
+    TypeText                    Title                       ${Lead_Conversion_Testing.Lead_Title}                   Address Information
+    TypeText                    Email                       ${Lead_Conversion_Testing.Lead_Email}                   Rating
     TypeText                    Website                     ${Lead_Conversion_Testing.Account_Website}
     PickList                    Lead Source                 Web
     TypeText                    Zip/Postal Code             ${LEAD_ZIP_CODE}
@@ -90,8 +90,8 @@ Creating An Account
     ClickText                   Accounts
     ClickUntil                  Account Information         New
 
-    TypeText                    Account Name                ${Lead_Conversion_Testing.Account_Name}             anchor=Parent Account
-    TypeText                    Phone                       ${Lead_Conversion_Testing.Account_Phone}            anchor=Fax
+    TypeText                    Account Name                ${Lead_Conversion_Testing.Account_Name}                 anchor=Parent Account
+    TypeText                    Phone                       ${Lead_Conversion_Testing.Account_Phone}                anchor=Fax
     TypeText                    Fax                         ${Lead_Conversion_Testing.Account_Fax}
     TypeText                    Website                     ${Lead_Conversion_Testing.Account_Website}
     Picklist                    Type                        ${ACCOUNT_TYPE}
@@ -137,7 +137,7 @@ Creating An Opportunity For The Account
 
     ClickUntil                  Stage                       Opportunities
     ClickUntil                  Opportunity Information     New
-    TypeText                    Opportunity Name            ${Lead_Conversion_Testing.OpportunityName}         anchor=Cancel               delay=2
+    TypeText                    Opportunity Name            ${Lead_Conversion_Testing.OpportunityName}              anchor=Cancel    delay=2
     Combobox                    Search Accounts...          ${Lead_Conversion_Testing.Account_Name}
     Picklist                    Type                        ${OPPORTUNITY_TYPE}
     ClickText                   Close Date                  Opportunity Information
@@ -162,7 +162,7 @@ Change status of opportunity
     Appstate                    Home
     ClickText                   Opportunities
     VerifyPageHeader            Opportunities
-    ClickText                   ${Lead_Conversion_Testing.OpportunityName}         delay=2                     # intentionally delay action - 2 seconds
+    ClickText                   ${Lead_Conversion_Testing.OpportunityName}              delay=2                     # intentionally delay action - 2 seconds
     VerifyText                  Contact Roles
     ClickText                   Show actions for Contact Roles
     # ClickText                 Show more actions           anchor=Contact Roles
@@ -202,15 +202,15 @@ Create A Contact For The Account
     Picklist                    Salutation                  ${CONTACT_SALUTATION}
     TypeText                    First Name                  ${Lead_Conversion_Testing.Contact_FirstName}
     TypeText                    Last Name                   ${Lead_Conversion_Testing.Contact_FirstName}
-    
+
     # Generate random phone numbers for contact
     ${contact_phone}=           Generate Phone Number
     ${contact_mobile}=          Generate Phone Number
     TypeText                    Phone                       ${contact_phone}            anchor=Mobile
     TypeText                    Mobile                      ${contact_mobile}
-    
+
     Combobox                    Search Accounts...          ${Lead_Conversion_Testing.Account_Name}
-    TypeText                    Email                       ${Lead_Conversion_Testing.Contact_Email}            anchor=Reports To
+    TypeText                    Email                       ${Lead_Conversion_Testing.Contact_Email}                anchor=Reports To
     TypeText                    Title                       ${CONTACT_TITLE}
     ClickText                   Save                        partial_match=False
     Sleep                       1
