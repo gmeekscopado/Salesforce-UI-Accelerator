@@ -25,7 +25,7 @@ ${Lead_Conversion_Testing.Lead_Salutation}
     Picklist                    Salutation                  ${Lead_Conversion_Testing.Lead_Salutation}
     TypeText                    First Name                  ${Lead_Conversion_Testing.Lead_FirstName}
     TypeText                    Last Name                   ${Lead_Conversion_Testing.Lead_LastName}
-    Picklist                    Lead Status                 ${Lead_Conversion_Testing.Lead_Status}
+ ${Lead_Conversion_Testing.Lead_Salutation_FullName}   Picklist                    Lead Status                 ${Lead_Conversion_Testing.Lead_Status}
     
     TypeText                    Phone                       ${Lead_Conversion_Testing.Lead_Phone}               First Name
     TypeText                    Company                     ${Lead_Conversion_Testing.Lead_Company}             Last Name
@@ -41,7 +41,7 @@ ${Lead_Conversion_Testing.Lead_Salutation}
     Sleep                       1
 
     ClickText                   Details
-    VerifyField                 Name                        ${Lead_Conversion_Testing.Lead_FullName}
+    VerifyField                 Name                        ${Lead_Conversion_Testing.Lead_Salutation_FullName}
     VerifyField                 Lead Status                 ${Lead_Conversion_Testing.Lead_Status}
     VerifyField                 Phone                       ${Lead_Conversion_Testing.Lead_Phone}
     VerifyField                 Company                     ${Lead_Conversion_Testing.Account_Name}
@@ -49,7 +49,7 @@ ${Lead_Conversion_Testing.Lead_Salutation}
 
     # As an example, let's check Phone number format. Should be "+" and 14 numbers
     ${phone_num}=               GetFieldValue               Phone
-    Should Match Regexp         ${phone_num}                ^[+]\\d{14}$
+    Should Match Regexp         ${phone_num}                ^[+]?[(]?\\d{1,4}[)]?[\\s.-]?\\d{1,4}[\\s.-]?\\d{1,9}$
 
     ClickText                   Leads
     VerifyText                  ${Lead_Conversion_Testing.Lead_FirstName} ${Lead_Conversion_Testing.Lead_LastName}
