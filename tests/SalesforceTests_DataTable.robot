@@ -15,7 +15,7 @@ Entering A Lead
     [Documentation]             Creates a new lead with dynamically generated data
     [tags]                      Lead
     Appstate                    Home
-    LaunchApp                   ${APP_SALES}
+    LaunchApp                   Sales
     ClickText                   Leads
     VerifyText                  Change Owner
     ClickText                   New
@@ -33,9 +33,9 @@ ${Lead_Conversion_Testing.Lead_Salutation}
     TypeText                    Email                       ${Lead_Conversion_Testing.Lead_Email}                   Rating
     TypeText                    Website                     ${Lead_Conversion_Testing.Account_Website}
     PickList                    Lead Source                 Web
-    TypeText                    Zip/Postal Code             ${LEAD_ZIP_CODE}
-    PickList                    Product Interest            ${LEAD_PRODUCT_INTEREST}
-    Picklist                    Lead Source                 ${LEAD_SOURCE}
+    TypeText                    Zip/Postal Code             ${Lead_Conversion_Testing.Lead_ZipCode}
+    PickList                    Product Interest            ${Lead_Conversion_Testing.Product_Of_Interest}
+    Picklist                    Lead Source                 ${Lead_Conversion_Testing.Lead_Source}
     ClickText                   Save                        partial_match=False
     UseModal                    Off
     Sleep                       1
@@ -61,7 +61,7 @@ Converting A Lead To Opportunity-Account-Contact
     [Documentation]             Converts the created lead to opportunity, account, and contact
     [tags]                      Lead.Conversion
     Appstate                    Home
-    LaunchApp                   ${APP_SALES}
+    LaunchApp                   Sales
 
     ClickText                   Leads
     ClickText                   ${Lead_Conversion_Testing.Lead_FirstName} ${Lead_Conversion_Testing.Lead_LastName}
