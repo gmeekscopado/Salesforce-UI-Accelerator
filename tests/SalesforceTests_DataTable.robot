@@ -6,6 +6,7 @@
 # Install requirement: pip install robotframework-faker
 
 *** Settings ***
+Library                         QForce
 Resource                        ../resources/common.robot
 Suite Setup                     Setup Suite With Dynamic Data
 Suite Teardown                  End suite
@@ -32,7 +33,8 @@ ${Lead_Conversion_Testing.Lead_Salutation}
     TypeText                    Title                       ${Lead_Conversion_Testing.Lead_Title}                   Address Information
     TypeText                    Email                       ${Lead_Conversion_Testing.Lead_Email}                   Rating
     TypeText                    Website                     ${Lead_Conversion_Testing.Account_Website}
-    PickList                    Lead Source                 Web
+    PickList                    Lead Source                 Partner Referral
+
     TypeText                    Zip/Postal Code             ${Lead_Conversion_Testing.Lead_ZipCode}
     PickList                    Product Interest            ${Lead_Conversion_Testing.Product_Of_Interest}
     Picklist                    Lead Source                 ${Lead_Conversion_Testing.Lead_Source}
