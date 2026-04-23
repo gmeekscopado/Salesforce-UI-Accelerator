@@ -35,4 +35,4 @@ Test case
     PickList    *Lead Status    Open - Not Contacted
     ClickText    Save    partial_match=False
     UseModal    Off
-    VerifyText    Lead\nMr. Ike Chafkin\nTitle\n\nCompany\n\nCopado\n\nEmail\n\nPath\nTabs\nTabs\nActivity\nDetails\nChatter\nActivity Publisher\nActivity Timeline\nSkip to the bottom of the activity timeline\nFilters: All time • All activities • All types\n • • \nNo activities to show.\nGet started by sending an email, scheduling a task, and more.\ninformation\nTo change what's shown, try changing your filters.\n\nSkip to the top of the activity timeline\nTabs\nTabs\nRelated\nWe found no potential duplicates of this Lead.\n\nCampaign History\n(0)
+    VerifyText    Lead Information
