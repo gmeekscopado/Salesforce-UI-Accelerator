@@ -96,16 +96,16 @@ Creating An Account
     TypeText                    Phone                       ${Lead_Conversion_Testing.Account_Phone}                anchor=Fax
     TypeText                    Fax                         ${Lead_Conversion_Testing.Account_Fax}
     TypeText                    Website                     ${Lead_Conversion_Testing.Account_Website}
-    Picklist                    Type                        ${ACCOUNT_TYPE}
-    Picklist                    Industry                    ${ACCOUNT_INDUSTRY}
+    Picklist                    Type                        ${Lead_Conversion_Testing.Account_Type}
+    Picklist                    Industry                    ${Lead_Conversion_Testing.Account_Industry}
 
-    TypeText                    Employees                   ${ACCOUNT_EMPLOYEES}
-    TypeText                    Annual Revenue              ${ACCOUNT_REVENUE}
+    TypeText                    Employees                   ${Lead_Conversion_Testing.Account_Employees}
+    TypeText                    Annual Revenue              ${Lead_Conversion_Testing.Account_Revenue}
     ClickText                   Save                        partial_match=False
 
     ClickText                   Details
     VerifyField                 Account Name                ${Lead_Conversion_Testing.Account_Name}
-    VerifyField                 Employees                   35,000
+    VerifyField                 Employees                   ${Lead_Conversion_Testing.Account_Employees}
 
 
 Create A Case on an Account
@@ -117,12 +117,12 @@ Create A Case on an Account
     ClickText                   New Case
 
     UseModal                    On
-    PickList                    *Status                     ${CASE_STATUS}
-    PickList                    *Case Origin                ${CASE_ORIGIN}
+    PickList                    *Status                     ${Lead_Conversion_Testing.Case_Status}
+    PickList                    *Case Origin                ${Lead_Conversion_Testing.Case_Origin}
     ComboBox                    Search Contacts...          ${Lead_Conversion_Testing.Lead_FirstName} ${Lead_Conversion_Testing.Lead_LastName}
     ComboBox                    Search Accounts...          ${Lead_Conversion_Testing.Account_Name}                 index=1
-    PickList                    Type                        ${CASE_TYPE}
-    PickList                    Case Reason                 ${CASE_REASON}
+    PickList                    Type                        ${Lead_Conversion_Testing.Case_Type}
+    PickList                    Case Reason                 ${Lead_Conversion_Testing.Case_Reason}
     ClickText                   Save                        partial_match=false
     UseModal                    Off
     VerifyText                  was created.
@@ -137,8 +137,8 @@ Creating An Opportunity For The Account
     VerifyText                  ${Lead_Conversion_Testing.Account_Name}
     VerifyText                  Opportunities
 
-    ClickUntil                  Stage                       Opportunities
-    ClickUntil                  Opportunity Information     New
+    ClickText                  Stage                       Opportunities
+    ClickText                  Opportunity Information     New
     TypeText                    Opportunity Name            ${Lead_Conversion_Testing.OpportunityName}              anchor=Cancel    delay=2
     Combobox                    Search Accounts...          ${Lead_Conversion_Testing.Account_Name}
     Picklist                    Type                        ${OPPORTUNITY_TYPE}
