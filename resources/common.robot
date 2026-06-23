@@ -123,7 +123,13 @@ Fill MFA
     TypeSecret                  Verification Code           ${mfa_code}
     ClickText                   Verify
 
-
+Verify JWT Authentication
+    [Documentation]    Uses JWT Authentication via an external Client Appstate
+    # This is the preferred authentication method now:
+    JWTAuthenticate    ${client_id}    ${username}    ${private_key}
+    JwtLogin
+    LaunchApp    Sales
+    
 Home
     [Documentation]             Example appstarte: Navigate to homepage, login if needed
     GoTo                        ${home_url}
