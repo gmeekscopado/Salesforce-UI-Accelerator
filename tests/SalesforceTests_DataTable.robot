@@ -15,8 +15,7 @@ Suite Teardown                  End suite
 Entering A Lead
     [Documentation]             Creates a new lead with dynamically generated data
     [tags]                      Lead
-    Appstate                    Home
-    LaunchApp                   Sales
+    Verify JWT Authentication
     ClickText                   Leads
     VerifyText                  Change Owner
     ClickText                   New
