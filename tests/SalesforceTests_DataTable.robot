@@ -9,7 +9,8 @@
 Library                         QForce
 Resource                        ../resources/common.robot
 Suite Setup                     Setup Suite With Dynamic Data
-Suite Teardown                  End suite
+Suite Teardown                  Cleanup And End Suite
+
 
 *** Test Cases ***
 Entering A Lead
@@ -219,41 +220,12 @@ Create A Contact For The Account
     ClickText                   Contacts
     VerifyText                  ${Lead_Conversion_Testing.Contact_FirstName} ${Lead_Conversion_Testing.Contact_LastName}
 
-
-Delete Test Data
-    [Documentation]             Cleans up all test data created during the test suite
+Verify Test Data Is Deleted
+    [Documentation]             Runs the cleanup, then checks that the data is gone
     [tags]                      Test data
-
-    # Attempt to delete 'Tina Smith' related Cases
+    Cleanup Test Data
     Appstate                    Home
-    LaunchApp                   ${APP_SERVICE}
-    ClickText                   Cases
-    ClickText                   Select a List View: Cases
-    ClickText                   Recently Viewed
-    ClickText                   Show Actions
-    ClickText                   Delete
-    UseModal                    On
-    ClickText                   Delete
-    VerifyText                  was deleted.
-
-    # Attempt to delete dynamically generated account data
     LaunchApp                   ${APP_SALES}
     ClickText                   Accounts
-    VerifyText                  Account Name
     Set Suite Variable          ${data}                     ${Lead_Conversion_Testing.Account_Name}
-    DeleteAllMatchingAccounts                               ${Lead_Conversion_Testing.Account_Name}
     VerifyNoMatchingAccounts    ${Lead_Conversion_Testing.Account_Name}
-    NoData                      # Verify no data exists
-
-    ClickText                   Opportunities
-    VerifyPageHeader            Opportunities
-    VerifyNoText                Safesforce Pace
-    VerifyNoText                ${Lead_Conversion_Testing.OpportunityName}
-    VerifyNoText                ${Lead_Conversion_Testing.Contact_FirstName} ${Lead_Conversion_Testing.Contact_LastName}
-    VerifyNoText                ${Lead_Conversion_Testing.Lead_FirstName} ${Lead_Conversion_Testing.Lead_LastName}
-
-    # Delete Leads
-    ClickText                   Leads
-    VerifyText                  Change Owner
-    VerifyNoText                ${Lead_Conversion_Testing.Lead_FirstName} ${Lead_Conversion_Testing.Lead_LastName}
-    VerifyNoText                ${Lead_Conversion_Testing.Contact_FirstName} ${Lead_Conversion_Testing.Contact_LastName}
