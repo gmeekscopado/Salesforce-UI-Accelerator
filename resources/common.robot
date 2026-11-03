@@ -191,66 +191,75 @@ HandleAccountMatch
 DeleteAllMatchingAccounts
     [Arguments]                 ${account_name}
     [Documentation]             Deletes all accounts with the given name
+    DeleteAllMatchingRecords    Accounts                    ${account_name}             Are you sure you want to delete this account?
 
-    ${accounts_exist}=          SetVariable                ${True}
-
-    WHILE                       ${accounts_exist}
-        ${is_visible}=          IsText                     ${account_name}
-        IF                      ${is_visible}
-            ClickText           ${account_name}             anchor=Account Name
-            ClickText           Delete
-            VerifyText          Are you sure you want to delete this account?
-            ClickText           Delete                      2
-            VerifyText          was deleted
-            Sleep               10
-        ELSE
-            ${accounts_exist}=                              SetVariable                ${False}
-        END
-    END
 VerifyNoMatchingAccounts
     [Arguments]                 ${account_name}
     [Documentation]             Verifies that no accounts with the given name exist
-
-
     TypeText                    Search this list...         ${account_name}\n           anchor=View
     VerifyNoText                ${account_name}             partial_match=false         timeout=5s
 
-
 DeleteAllMatchingRecords
-    [Arguments]                 ${object_type}              ${record_name}
-    [Documentation]             Deletes all records of the specified object type with the given name
-
-    &{OBJECT_CONFIGS}
-...    Account=Account Name    
-...    Contact=Name    
-...    Lead=Name    
-...    Opportunity=Opportunity Name
-
-&{DELETE_CONFIRMATIONS}
-...    Account=Are you sure you want to delete this account?
-...    Contact=Are you sure you want to delete this contact?
-...    Lead=Are you sure you want to delete this lead?
-...    Opportunity=Are you sure you want to delete this opportunity?
-
-    ${object_type}=             Convert To Title Case       ${object_type}
-    ${anchor_text}=             Get From Dictionary         ${OBJECT_CONFIGS}           ${object_type}
-    ${confirmation_text}=       Get From Dictionary         ${DELETE_CONFIRMATIONS}     ${object_type}
-
-    ${records_exist}=           Set Variable                ${True}
-
-    WHILE                       ${records_exist}
-        ${is_visible}=          Is Text                     ${record_name}
-        IF                      ${is_visible}
-            ClickText           ${record_name}              anchor=${anchor_text}
-            ClickText           Delete
-            VerifyText          ${confirmation_text}
-            ClickText           Delete                      2
-            VerifyText          Undo
-            VerifyNoText        Undo                        timeout=5s
-        ELSE
-            ${records_exist}=                               Set Variable                ${False}
+    [Arguments]                 ${list_tab}                 ${record_name}              ${confirmation_text}
+    [Documentation]             Opens the list tab, filters by name and deletes matching records until none are left.
+    ...                         The loop is capped so a stuck delete can never hang the suite.
+    ClickText                   ${list_tab}
+    VerifyText                  Search this list...
+    TypeText                    Search this list...         ${record_name}\n
+    FOR    ${i}    IN RANGE    20
+        ${found}=               IsText                      ${record_name}              timeout=3
+        IF    not ${found}
+            BREAK
         END
+        ClickText               ${record_name}
+        ClickText               Delete
+        VerifyText              ${confirmation_text}
+        ClickText               Delete                      2
+        VerifyText              was deleted                 timeout=15
+        ClickText               ${list_tab}
+        VerifyText              Search this list...
+        TypeText                Search this list...         ${record_name}\n
     END
+
+DeleteAllMatchingCases
+    [Arguments]                 ${search_text}
+    [Documentation]             Deletes cases found by searching the Cases list, until none are left
+    ClickText                   Cases
+    VerifyText                  Search this list...
+    TypeText                    Search this list...         ${search_text}\n
+    FOR    ${i}    IN RANGE    20
+        ${found}=               IsText                      Show Actions                timeout=3
+        IF    not ${found}
+            BREAK
+        END
+        ClickText               Show Actions
+        ClickText               Delete
+        UseModal                On
+        ClickText               Delete
+        UseModal                Off
+        VerifyText              was deleted                 timeout=15
+        ClickText               Cases
+        VerifyText              Search this list...
+        TypeText                Search this list...         ${search_text}\n
+    END
+
+Cleanup Test Data
+    [Documentation]             Deletes all data created by the suite. Every step is wrapped so one failure
+    ...                         never stops the rest of the cleanup. Safe to run even if earlier tests failed.
+    Run Keyword And Ignore Error    AppState                Home
+    Run Keyword And Ignore Error    LaunchApp               ${APP_SALES}
+    Run Keyword And Ignore Error    DeleteAllMatchingCases      ${Lead_Conversion_Testing.Lead_LastName}
+    Run Keyword And Ignore Error    DeleteAllMatchingRecords    Opportunities           ${Lead_Conversion_Testing.OpportunityName}      Are you sure you want to delete this opportunity?
+    Run Keyword And Ignore Error    DeleteAllMatchingRecords    Contacts                ${Lead_Conversion_Testing.Contact_FirstName}    Are you sure you want to delete this contact?
+    Run Keyword And Ignore Error    DeleteAllMatchingRecords    Contacts                ${Lead_Conversion_Testing.Lead_LastName}        Are you sure you want to delete this contact?
+    Run Keyword And Ignore Error    DeleteAllMatchingRecords    Leads                   ${Lead_Conversion_Testing.Lead_LastName}        Are you sure you want to delete this lead?
+    Run Keyword And Ignore Error    DeleteAllMatchingRecords    Accounts                ${Lead_Conversion_Testing.Account_Name}         Are you sure you want to delete this account?
+
+Cleanup And End Suite
+    [Documentation]             Suite teardown: always cleans up, then always closes the browser
+    Run Keyword And Ignore Error    Cleanup Test Data
+    End suite
+
 
 
 Setup Suite With Dynamic Data
