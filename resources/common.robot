@@ -243,22 +243,44 @@ DeleteAllMatchingCases
         TypeText                Search this list...         ${search_text}\n
     END
 
+Delete Records If Named
+    [Documentation]             Safe wrapper: skips when the name is empty, so cleanup can never search for a blank
+    ...                         value and delete unrelated records. Failures are logged, never raised.
+    [Arguments]                 ${list_tab}                 ${record_name}              ${confirmation_text}
+    ${has_name}=                Run Keyword And Return Status                           Should Not Be Empty         ${record_name}
+    IF    not ${has_name}
+        Log                     Skipping ${list_tab} cleanup, no name available         WARN
+        RETURN
+    END
+    ${status}    ${msg}=        Run Keyword And Ignore Error                            DeleteAllMatchingRecords    ${list_tab}    ${record_name}    ${confirmation_text}
+    IF    '${status}' == 'FAIL'
+        Log                     Cleanup of ${list_tab} '${record_name}' failed: ${msg}                              WARN
+    END
+
 Cleanup Test Data
-    [Documentation]             Deletes all data created by the suite. Every step is wrapped so one failure
-    ...                         never stops the rest of the cleanup. Safe to run even if earlier tests failed.
-    Run Keyword And Ignore Error    AppState                Home
+    [Documentation]             Deletes all data created by the suite. Every step is isolated so one failure
+    ...                         never stops the rest. Names come from the data table if present, otherwise from
+    ...                         the generated dynamic variables.
+    ${lead_last}=               Get Variable Value          ${Lead_Conversion_Testing.Lead_LastName}                ${LEAD_LAST_NAME}
+    ${contact_first}=           Get Variable Value          ${Lead_Conversion_Testing.Contact_FirstName}            ${CONTACT_FIRST_NAME}
+    ${opp_name}=                Get Variable Value          ${Lead_Conversion_Testing.OpportunityName}              ${OPPORTUNITY_NAME}
+    ${acc_name}=                Get Variable Value          ${Lead_Conversion_Testing.Account_Name}                 ${ACCOUNT_NAME}
+    Run Keyword And Ignore Error    GoTo                    ${home_url}
     Run Keyword And Ignore Error    LaunchApp               ${APP_SALES}
-    Run Keyword And Ignore Error    DeleteAllMatchingCases      ${Lead_Conversion_Testing.Lead_LastName}
-    Run Keyword And Ignore Error    DeleteAllMatchingRecords    Opportunities           ${Lead_Conversion_Testing.OpportunityName}      Are you sure you want to delete this opportunity?
-    Run Keyword And Ignore Error    DeleteAllMatchingRecords    Contacts                ${Lead_Conversion_Testing.Contact_FirstName}    Are you sure you want to delete this contact?
-    Run Keyword And Ignore Error    DeleteAllMatchingRecords    Contacts                ${Lead_Conversion_Testing.Lead_LastName}        Are you sure you want to delete this contact?
-    Run Keyword And Ignore Error    DeleteAllMatchingRecords    Leads                   ${Lead_Conversion_Testing.Lead_LastName}        Are you sure you want to delete this lead?
-    Run Keyword And Ignore Error    DeleteAllMatchingRecords    Accounts                ${Lead_Conversion_Testing.Account_Name}         Are you sure you want to delete this account?
+    IF    '${lead_last}' != '${EMPTY}' and '${lead_last}' != 'None'
+        Run Keyword And Ignore Error    DeleteAllMatchingCases      ${lead_last}
+    END
+    Delete Records If Named     Opportunities               ${opp_name}                 Are you sure you want to delete this opportunity?
+    Delete Records If Named     Contacts                    ${contact_first}            Are you sure you want to delete this contact?
+    Delete Records If Named     Contacts                    ${lead_last}                Are you sure you want to delete this contact?
+    Delete Records If Named     Leads                       ${lead_last}                Are you sure you want to delete this lead?
+    Delete Records If Named     Accounts                    ${acc_name}                 Are you sure you want to delete this account?
 
 Cleanup And End Suite
     [Documentation]             Suite teardown: always cleans up, then always closes the browser
     Run Keyword And Ignore Error    Cleanup Test Data
     End suite
+
 
 
 
